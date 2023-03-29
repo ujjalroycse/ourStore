@@ -24,7 +24,7 @@ if(isset($_POST['login_from'])){
 
             if($userData['email_status'] == 1 AND $userData['mobile_status'] == 1 ){
                 $_SESSION['user'] = $userData;
-                header('location:index.php');
+                header('location:'.GET_APP_URL().'/deshboard');
             }
             else{
 
@@ -52,7 +52,7 @@ if(isset($_POST['login_from'])){
     }
 }
 if(isset($_SESSION['user'])){
-    header('location:index.php');
+    header('location:'.GET_APP_URL().'/deshboard');
 }
 
 

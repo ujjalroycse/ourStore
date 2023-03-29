@@ -18,10 +18,10 @@ function getProfile($id){
 }
 
 function get_header(){
-  require_once('header.php');
+  require_once('includes/header.php');
 }
 function get_footer(){
-  require_once('footer.php');
+  require_once('includes/footer.php');
 }
 
 ?>

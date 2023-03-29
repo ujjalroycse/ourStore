@@ -1,8 +1,9 @@
 
 
 <?php 
-require_once('config.php');
-get_header();
+require_once('../config.php');
+require_once('../includes/header.php');
+// get_header();
 $profile = getProfile($_SESSION['user']['id']);
 
 
@@ -25,9 +26,9 @@ $profile = getProfile($_SESSION['user']['id']);
                             <div class="card-body">
                                 <div class="media align-items-center mb-4">
                                     <?php if($profile['photo'] != NULL) : ?>
-                                    <img class="mr-3" src="images/avatar/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
+                                    <img class="mr-3" src="../images/avatar/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
                                     <?php else : ?>
-                                    <img class="mr-3" src="images/avatar/11.png" width="80" height="80" alt="">
+                                    <img class="mr-3" src="../images/avatar/11.png" width="80" height="80" alt="">
                                     <?php endif; ?>
 
                                     <div class="media-body">
@@ -88,4 +89,8 @@ $profile = getProfile($_SESSION['user']['id']);
             </div>
             <!-- #/ container -->
     
-<?php get_footer(); ?>
+<?php 
+get_footer(); 
+
+// require_once('includes/footer.php');
+?>

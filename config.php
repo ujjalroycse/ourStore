@@ -16,5 +16,12 @@ try {
 
 require_once('function.php');
 
+function APP_URL(){
+  echo "http://localhost/ourStore";
+}
+function GET_APP_URL(){
+  return "http://localhost/ourStore";
+}
+
 
 ?>

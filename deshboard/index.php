@@ -1,5 +1,9 @@
 
-<?php require_once('header.php'); ?>
+<?php 
+require_once('../config.php');
+// require_once('../includes/header.php'); 
+get_header();
+?>
 
 <div class="row">
     <div class="col-lg-3 col-sm-6">
@@ -543,4 +547,7 @@
     </div>
 </div>
 
-<?php require_once('footer.php'); ?>
+<?php 
+// require_once('includes/footer.php'); 
+get_footer();
+?>

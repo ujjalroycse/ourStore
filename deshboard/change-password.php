@@ -1,7 +1,7 @@
 
 
 <?php 
-require_once('config.php');
+require_once('../config.php');
 get_header();
 $profile = getProfile($_SESSION['user']['id']);
 if(isset($_POST['change_password'])){

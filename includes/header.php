@@ -1,6 +1,7 @@
 
 <?php 
-require_once('config.php');
+// require_once('../config.php');
+// get_config();
 
 session_start();
 if(!isset($_SESSION['user'])){
@@ -8,6 +9,8 @@ if(!isset($_SESSION['user'])){
 }
 
 $profile = getProfile($_SESSION['user']['id']);
+
+
 
 
 ?>
@@ -27,12 +30,13 @@ $profile = getProfile($_SESSION['user']['id']);
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
     <!-- Pignose Calender -->
-    <link href="./plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
+    <link href="../plugins/pg-calendar/css/pignose.calendar.min.css" rel="stylesheet">
     <!-- Chartist -->
-    <link rel="stylesheet" href="./plugins/chartist/css/chartist.min.css">
-    <link rel="stylesheet" href="./plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
+    <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+    
 
 </head>
 
@@ -41,13 +45,13 @@ $profile = getProfile($_SESSION['user']['id']);
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div>
+    </div> -->
     <!--*******************
         Preloader end
     ********************-->
@@ -63,9 +67,9 @@ $profile = getProfile($_SESSION['user']['id']);
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="index.html">
-                    <b class="logo-abbr"><img src="images/logo.png" alt=""> </b>
-                    <span class="logo-compact"><img src="./images/logo-compact.png" alt=""></span>
+                <a href="index.php">
+                    <b class="logo-abbr"><img src="../images/logo.png" alt=""> </b>
+                    <span class="logo-compact"><img src="../images/logo-compact.png" alt=""></span>
                     <span class="brand-title">
                         <p class="text-white" style="font-size: 22px; font-weight:700;">OUR STORE</p>
                     </span>
@@ -146,21 +150,21 @@ $profile = getProfile($_SESSION['user']['id']);
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                                 <?php if($profile['photo'] != NULL) : ?>
-                                    <img src="images/avatar/<?php echo $profile['photo']; ?>" width="40" height="40" alt="">
+                                    <img src="../images/avatar/<?php echo $profile['photo']; ?>" width="40" height="40" alt="">
                                 <?php else : ?>
-                                    <img src="images/avatar/1.png" width="40" height="40" alt="">
+                                    <img src="../images/avatar/1.png" width="40" height="40" alt="">
                                 <?php endif; ?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="profile.php"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="<?php APP_URL(); ?>/deshboard/profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                         <li>
-                                            <a href="change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
+                                            <a href="<?php APP_URL(); ?>/deshboard/change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
                                         </li>
-                                        <li><a href="logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -193,8 +197,8 @@ $profile = getProfile($_SESSION['user']['id']);
                         <i class="fa fa-shopping-cart"></i><span class="nav-text">Categories</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="new-categories.php">Add New Categories</a></li>
-                            <li><a href="categories.php">All Categories</a></li>
+                            <li><a href="<?php echo APP_URL();?>/categories/new-categories.php">Add New Categories</a></li>
+                            <li><a href="<?php echo APP_URL();?>/categories/index.php">All Categories</a></li>
                         </ul>
                     </li>
                     <li class="mega-menu mega-menu-sm">
