@@ -77,7 +77,7 @@ $profile = getProfile($_SESSION['user']['id']);
                                 </ul>
                                 <br>
                                 <div class="col-12 text-center">
-                                        <button class="btn btn-danger px-5">Update Profile</button>
+                                        <a href="profile-update.php" class="btn btn-danger px-5">Update Profile</a>
                                         <br>
                                         <br>
                                         <a href="change-password.php" class="btn btn-warning text-white px-5">Change Password</a>

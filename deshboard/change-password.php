@@ -65,7 +65,7 @@ if(isset($_POST['change_password'])){
                                     </div>
                                 <script>
                                     setTimeout(function(){
-                                        window.location.href="logout.php";
+                                        window.location.href="../logout.php";
                                     },2000);
                                 </script>
                                 <?php endif; ?>
