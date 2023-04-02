@@ -35,6 +35,7 @@ $profile = getProfile($_SESSION['user']['id']);
     <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
     <!-- Custom Stylesheet -->
+    <link href="../plugins/summernote/dist/summernote.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
     
 
@@ -206,8 +207,8 @@ $profile = getProfile($_SESSION['user']['id']);
                         <i class="fa fa-shopping-cart"></i><span class="nav-text">Products</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="new-product.php">Add New Product</a></li>
-                            <li><a href="products.php">All products</a></li>
+                            <li><a href="<?php echo APP_URL();?>/products/new-products.php">Add New Product</a></li>
+                            <li><a href="<?php echo APP_URL();?>/products/index.php">All products</a></li>
                         </ul>
                     </li>
 
@@ -218,8 +219,8 @@ $profile = getProfile($_SESSION['user']['id']);
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Menufacture</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="new-menufacture.php">Add New Menufacture</a></li>
-                            <li><a href="menufactures.php">All Menufactures</a></li>
+                            <li><a href="<?php echo APP_URL();?>/manufacture/new-manufacture.php">Add New Menufacture</a></li>
+                            <li><a href="<?php echo APP_URL();?>/manufacture/index.php">All Menufactures</a></li>
                         </ul>
                     </li>
                     <li class="mega-menu mega-menu-sm">

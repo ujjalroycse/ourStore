@@ -58,6 +58,16 @@ function getProfile($id){
   return $result;
 }
 
+// get profile data
+function getProductCategoryName($col,$id){
+  global $connection;
+  $statement = $connection->prepare("SELECT $col FROM categories WHERE id=?");
+  $statement->execute(array($id));
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  return $result[$col];
+}
+
 function get_header(){
   require_once('includes/header.php');
 }
