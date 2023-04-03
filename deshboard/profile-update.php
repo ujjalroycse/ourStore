@@ -1,7 +1,7 @@
 <?php 
 require_once('../config.php'); 
 require_once('../includes/header.php'); 
-// session_start();
+
 $id = $_SESSION['user']['id'];
 if(isset($_POST['profile_update_from'])){
     $name = $_POST['name'];
@@ -10,8 +10,12 @@ if(isset($_POST['profile_update_from'])){
     $address = $_POST['address'];
     $gender = $_POST['gender'];
     $date_of_birth = $_POST['date_of_birth'];
+    $photo = $_FILES['photo'];
 
     $usernameCount = InputCount('username',$username);
+    $target_directory = "images/";
+    $target_file = $target_directory . basename($_FILES["photo"]["name"]);
+    $photoFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
     if(empty($name)){
         $error = "Name is Required!";
@@ -26,8 +30,11 @@ if(isset($_POST['profile_update_from'])){
         $created_at = date('Y-m-d H:i:s');
         $username = strtolower($username);
 
-        $statement = $connection->prepare("UPDATE users SET name=?,username=?,business_name=?,address=?,gender=?,date_of_birth=? WHERE id=?");
-        $result = $statement->execute(array($name,$username,$business_name,$address,$gender,$date_of_birth,$id));
+        $new_photo_name = $id." - ".rand(1111,9999)."-".time()."." .$photoFileType;
+        move_uploaded_file($_FILES["photo"]["tmp_name"], $target_directory.$new_photo_name);
+
+        $statement = $connection->prepare("UPDATE users SET name=?,username=?,business_name=?,address=?,gender=?,date_of_birth=?,photo=? WHERE id=?");
+        $result = $statement->execute(array($name,$username,$business_name,$address,$gender,$date_of_birth,$new_photo_name,$id));
 
         if($result == true){
             $success = "Data update successfully!";
@@ -93,18 +100,25 @@ if(isset($_POST['profile_update_from'])){
                                 </div>
                             <?php endif; ?>
     
-                            <form action="" method="POST" class="mt-5 mb-5 login-input">
+                            <form action="" method="POST" class="mt-5 mb-5 login-input" enctype="multipart/form-data">
+                                <?php 
+                                $update_data = getProfile($id);
+                                ?>
                                 <div class="form-group">
-                                    <input type="text" name="name"n class="form-control"  placeholder="Name" >
+                                    <label for="name">Name :</label>
+                                    <input type="text" id="name" name="name" class="form-control input-default" value="<?php echo $update_data['name']; ?>"  placeholder="Name" >
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="username" class="form-control"  placeholder="User Name" >
+                                    <label for="username">User Name :</label>
+                                    <input type="text" id="username" name="username" class="form-control input-default" value="<?php echo $update_data['username']; ?>" placeholder="User Name" >
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="business_name" class="form-control"  placeholder="Business Name" >
+                                    <label for="business_name">Business Name :</label>
+                                    <input type="text" id="business_name" name="business_name" class="form-control input-default" value="<?php echo $update_data['business_name']; ?>" placeholder="Business Name" >
                                 </div>
                                 <div class="form-group">
-                                        <textarea class="form-control" name="address" placeholder="Address"></textarea>
+                                    <label for="address">Address :</label>
+                                    <textarea class="form-control input-default" id="address" name="address" placeholder="Address"><?php echo $update_data['address']; ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Gender</label><br>
@@ -112,7 +126,12 @@ if(isset($_POST['profile_update_from'])){
                                     <label><input type="radio" name="gender" value="Female">Female</label>
                                 </div>
                                 <div class="form-group">
-                                    <input type="date" name="date_of_birth" class="form-control" placeholder="Date Of Birth" >
+                                    <label for="date_of_birth">Date Of Birth :</label>
+                                    <input type="date" id="date_of_birth" name="date_of_birth" value="<?php echo $update_data['date_of_birth']; ?>" class="form-control input-default" placeholder="Date Of Birth" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="photo">Photo :</label>
+                                    <input type="file" id="photo" name="photo" class="form-control input-default"  >
                                 </div>
                                 <button type="submit" name="profile_update_from" class="btn login-form__btn submit w-100">Update Profile</button>
                             </form>

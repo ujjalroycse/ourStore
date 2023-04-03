@@ -26,9 +26,9 @@ $profile = getProfile($_SESSION['user']['id']);
                             <div class="card-body">
                                 <div class="media align-items-center mb-4">
                                     <?php if($profile['photo'] != NULL) : ?>
-                                    <img class="mr-3" src="../images/avatar/<?php echo $profile['photo']; ?>" width="80" height="80" alt="">
+                                    <img class="mr-3" src="images/<?php echo $profile['photo']; ?>" width="80" height="80" style="object-fit: cover; border-radius:50%;" alt="">
                                     <?php else : ?>
-                                    <img class="mr-3" src="../images/avatar/11.png" width="80" height="80" alt="">
+                                    <img class="mr-3" src="../images/avatar/1.jpg" width="80" height="80"  alt="">
                                     <?php endif; ?>
 
                                     <div class="media-body">

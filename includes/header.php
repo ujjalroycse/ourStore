@@ -151,9 +151,9 @@ $profile = getProfile($_SESSION['user']['id']);
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                                 <?php if($profile['photo'] != NULL) : ?>
-                                    <img src="../images/avatar/<?php echo $profile['photo']; ?>" width="40" height="40" alt="">
+                                    <img src="../deshboard/images/<?php echo $profile['photo']; ?>" style="object-fit: cover; border-radius:50%;" width="40" height="40" alt="">
                                 <?php else : ?>
-                                    <img src="../images/avatar/1.png" width="40" height="40" alt="">
+                                    <img src="../images/avatar/2.jpg"  width="40" height="40" alt="">
                                 <?php endif; ?>
                             </div>
                             <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
