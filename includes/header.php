@@ -223,15 +223,26 @@ $profile = getProfile($_SESSION['user']['id']);
                             <li><a href="<?php echo APP_URL();?>/manufacture/index.php">All Menufactures</a></li>
                         </ul>
                     </li>
+
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Purchase</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="new-purchase.php">Add New Purchase</a></li>
-                            <li><a href="purchases.php">All Purchases</a></li>
+                            <li><a href="<?php echo APP_URL();?>/purchase/new-purchase.php">Add New Purchase</a></li>
+                            <li><a href="<?php echo APP_URL();?>/purchase/index.php">All Purchases</a></li>
+                            <li><a href="<?php echo APP_URL();?>/groups/index.php">Groups</a></li>
                         </ul>
                     </li>
+
+                    <!-- <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Purchase</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="<?php echo APP_URL();?>/groups/index.php">All Purchases</a></li>
+                        </ul>
+                    </li> -->
                     
                     <li class="nav-label">sales</li>
 

@@ -68,6 +68,35 @@ function getProductCategoryName($col,$id){
   return $result[$col];
 }
 
+// // get profile data
+function getPurchasesData($table,$col,$id){
+  global $connection;
+  $statement = $connection->prepare("SELECT $col FROM $table WHERE id=?");
+  $statement->execute(array($id));
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  return $result[$col];
+}
+
+function getGroupData($col,$name,$id){
+  global $connection;
+  $statement = $connection->prepare("SELECT $col FROM groups WHERE group_name=? AND product_id=?");
+  $statement->execute(array($name,$id));
+  $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+  return $result[$col];
+}
+
+// get purchases data
+// function getProductName($col,$id){
+//   global $connection;
+//   $statement = $connection->prepare("SELECT $col FROM products WHERE id=?");
+//   $statement->execute(array($id));
+//   $result = $statement->fetch(PDO::FETCH_ASSOC);
+//   return $result[$col];
+// }
+
+
 function get_header(){
   require_once('includes/header.php');
 }
