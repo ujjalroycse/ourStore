@@ -74,7 +74,13 @@ if(isset($_POST['update_form'])){
                                     $products = getTableData('products');
                                     
                                     foreach($products as $product): ?>
-                                    <option value="<?php echo $product['id'] ?>"><?php echo $product['product_name']; ?></option>
+                                    <option value="<?php echo $product['id'] ?>"
+                                    <?php 
+                                    if($product['id'] == $update_par_data['product_id']){
+                                        echo "selected";
+                                    }
+                                    ?>
+                                    ><?php echo $product['product_name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -84,7 +90,13 @@ if(isset($_POST['update_form'])){
                                     <?php 
                                     $manufactures = getTableData('manufacture');
                                     foreach($manufactures as $manufacture): ?>
-                                    <option value="<?php echo $manufacture['id'] ?>"><?php echo $manufacture['name'].' - '.$manufacture['mobile']; ?></option>
+                                    <option value="<?php echo $manufacture['id'] ?>"
+                                    <?php 
+                                    if($manufacture['id'] == $update_par_data['manufacture_id']){
+                                        echo "selected";
+                                    }
+                                    ?>
+                                    ><?php echo $manufacture['name'].' - '.$manufacture['mobile']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -103,10 +115,6 @@ if(isset($_POST['update_form'])){
                             <div class="form-group">
                                 <label for="quantity">Quantity :</label>
                                 <input type="text" name="quantity" id="quantity" class="form-control input-default" value="<?php echo $update_par_data['quantity'] ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="expire_date">Expire Date:</label>
-                                <input type="date" name="expire_date" id="expire_date" class="form-control input-default">
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="update_form" class="btn btn-success" value="Update">

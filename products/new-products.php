@@ -33,8 +33,8 @@ if(isset($_POST['product_submit'])){
         move_uploaded_file($_FILES["photo"]["tmp_name"], $target_directory.$new_photo_name);
 
         $date = date('Y-m-d H:i:s');
-        $statement=$connection->prepare("INSERT INTO products(user_id,product_name,category_id,description,photo,created_at) VALUES(?,?,?,?,?,?)");
-        $statement->execute(array($user_id,$product_name,$product_category,$description,$new_photo_name,$date));
+        $statement=$connection->prepare("INSERT INTO products(user_id,product_name,category_id,description,stock,photo,created_at) VALUES(?,?,?,?,?,?,?)");
+        $statement->execute(array($user_id,$product_name,$product_category,$description,'NULL',$new_photo_name,$date));
 
         $success = "Category create successfully!";
     }

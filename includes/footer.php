@@ -11,7 +11,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2023</p>
+            <p>Copyright &copy; Developed by <a href="https://coderitsolution.com">Coder It Solution</a> <?php echo date('Y') ?></p>
             </div>
         </div>
         <!--**********************************

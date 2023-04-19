@@ -10,11 +10,10 @@ if(isset($_POST['update_form'])){
 
     $product_name = $_POST['product_name'];
     $product_category = $_POST['product_category'];
+    $description = $_POST['description'];
     $photo = $_FILES['photo'];
 
     $target_directory = "../uploads/products/";
-    $target_file = $target_directory . basename($_FILES["photo"]["name"]);
-    $photoFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
     
     if(empty($product_name)){
         $error = "Product name is required!";
@@ -22,29 +21,69 @@ if(isset($_POST['update_form'])){
     elseif(empty($product_category)){
         $error = "Product category is required!";
     }
-    elseif(empty($photo)){
-        $error = "Photo is required!";
-    }
     else{
 
-        $new_photo_name = $user_id." - ".rand(1111,9999)."-".time()."." .$photoFileType;
-        move_uploaded_file($_FILES["photo"]["tmp_name"], $target_directory.$new_photo_name);
+        $image_link = getPurchasesData('products','photo',$id);
+        if(!empty($_FILES["photo"]["name"])){
 
-        $date = date('Y-m-d H:i:s');
-        $statement=$connection->prepare("UPDATE products SET product_name=?,category_id=?,photo=? WHERE user_id=? AND id=?");
-        $statement->execute(array($product_name,$product_category,$new_photo_name,$user_id,$id));
+            $target_file = $target_directory . basename($_FILES["photo"]["name"]);
+            $photoFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-        $success = "Product update successfully!";
+            if($photoFileType != 'jpg' && $photoFileType != 'png' && $photoFileType != 'jpeg'){
+                $error = "Use photo extension jpg or png or jpeg!";
+            }
+            else{
+                $new_photo_name = $user_id." - ".rand(1111,9999)."-".time()."." .$photoFileType;
+                move_uploaded_file($_FILES["photo"]["tmp_name"], $target_directory.$new_photo_name);
+
+                if(file_exists($target_directory.$image_link)){
+                    unlink($target_directory.$image_link);
+                }
+            }
+            $image_link = $new_photo_name;
+        }
+
+        
+            $statement=$connection->prepare("UPDATE products SET product_name=?,category_id=?,description=?,photo=? WHERE id=?");
+            $statement->execute(array($product_name,$product_category,$description,$image_link,$id));
+    
+            $success = "Product update successfully!";
+        
     }
 }
 
 ?>
 
+<!-- if(!empty($_FILES["photo"]["name"])){
+
+$target_file = $target_directory . basename($_FILES["photo"]["name"]);
+$photoFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+if($photoFileType != 'jpg' && $photoFileType != 'png' && $photoFileType != 'jpeg'){
+    $error = "Use photo extension jpg or png or jpeg!";
+}
+else{
+    $new_photo_name = $user_id." - ".rand(1111,9999)."-".time()."." .$photoFileType;
+    move_uploaded_file($_FILES["photo"]["tmp_name"], $target_directory.$new_photo_name);
+
+    $statement=$connection->prepare("UPDATE products SET product_name=?,category_id=?,description=?,photo=? WHERE id=?");
+    $statement->execute(array($product_name,$product_category,$description,$new_photo_name,$id));
+
+    $success = "Product update successfully!";
+}
+}
+else{
+$statement=$connection->prepare("UPDATE products SET product_name=?,category_id=?,description=? WHERE id=?");
+$statement->execute(array($product_name,$product_category,$description,$id));
+
+$success = "Product update successfully!";
+} -->
+
 <!-- row -->
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-6 col-xl-6">
+        <div class="col-lg-10 offset-lg-1">
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">Update Product</h3>
@@ -76,14 +115,27 @@ if(isset($_POST['update_form'])){
                                     $categories = getTableData('categories');
                                     foreach($categories as $category) : 
                                     ?>
-                                    <option value="<?php echo $category['id']?>"><?php echo $category['category_name'] ?></option>
+                                    <option value="<?php echo $category['id']?>"
+                                        <?php 
+                                            if( $category['id'] == $product_data['category_id']){
+                                                echo "selected";
+                                            }
+                                        ?>
+                                    ><?php echo $category['category_name'] ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="description">Description :</label>
+                                <textarea class="form-control input-default summernote" name="description" id="description"><?php echo $product_data['description'] ?></textarea>
+                            </div>
+                            <div class="form-group">
                                 <label for="photo">Photo :</label>
                                 <input type="file" name="photo" id="photo" value="<?php echo $product_data['photo']; ?>" class="form-control input-default">
-                            </div>
+                                <br> 
+                                <div class="images">
+                                    <img style="width:150px; height:auto" src="../uploads/products/<?php echo $product_data['photo']; ?>">
+                            </div><br>
                             <div class="form-group">
                                 <input type="submit" name="update_form" class="btn btn-success" value="Update">
                             </div>

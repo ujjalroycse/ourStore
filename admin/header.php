@@ -1,20 +1,12 @@
 
 <?php 
-// require_once('../config.php');
-// get_config();
 
 session_start();
-if(!isset($_SESSION['user'])){
+if(!isset($_SESSION['admin'])){
     header('location:login.php');
 }
 
-$profile = getProfile($_SESSION['user']['id']);
-
-if($profile['status'] == 'Blocked'){
-    header('location:../page-error-400.php');
-}
-
-
+$profile = getAdminProfile($_SESSION['admin']['id']);
 
 
 ?>
@@ -30,7 +22,7 @@ if($profile['status'] == 'Blocked'){
     <!-- theme meta -->
     <meta name="theme-name" content="quixlab" />
   
-    <title>Our Store</title>
+    <title>Our Store - Admin Deshboard</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
     <!-- Pignose Calender -->
@@ -38,7 +30,9 @@ if($profile['status'] == 'Blocked'){
     <!-- Chartist -->
     <link rel="stylesheet" href="../plugins/chartist/css/chartist.min.css">
     <link rel="stylesheet" href="../plugins/chartist-plugin-tooltips/css/chartist-plugin-tooltip.css">
+    <link href="../plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
+    <link href="../plugins/tables/css/datatable/buttons.min.css" rel="stylesheet">
     <link href="../plugins/summernote/dist/summernote.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
     
@@ -50,13 +44,13 @@ if($profile['status'] == 'Blocked'){
     <!--*******************
         Preloader start
     ********************-->
-    <div id="preloader">
+    <!-- <div id="preloader">
         <div class="loader">
             <svg class="circular" viewBox="25 25 50 50">
                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
             </svg>
         </div>
-    </div>
+    </div> -->
     <!--*******************
         Preloader end
     ********************-->
@@ -72,7 +66,7 @@ if($profile['status'] == 'Blocked'){
         ***********************************-->
         <div class="nav-header">
             <div class="brand-logo">
-                <a href="../deshboard/">
+                <a href="index.php">
                     <b class="logo-abbr"><img src="../images/logo.png" alt=""> </b>
                     <span class="logo-compact"><img src="../images/logo-compact.png" alt=""></span>
                     <span class="brand-title">
@@ -155,7 +149,7 @@ if($profile['status'] == 'Blocked'){
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity active"></span>
                                 <?php if($profile['photo'] != NULL) : ?>
-                                    <img src="../deshboard/images/<?php echo $profile['photo']; ?>" style="object-fit: cover; border-radius:50%;" width="40" height="40" alt="">
+                                    <img src="../deshboard/images/<?php echo $profile['photo'] ?>" style="object-fit:cover;"  width="40" height="40" alt="">
                                 <?php else : ?>
                                     <img src="../images/avatar/2.jpg"  width="40" height="40" alt="">
                                 <?php endif; ?>
@@ -164,12 +158,12 @@ if($profile['status'] == 'Blocked'){
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="<?php APP_URL(); ?>/deshboard/profile.php"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="<?php APP_URL();?>/admin/profile.php"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                         <li>
-                                            <a href="<?php APP_URL(); ?>/deshboard/change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
+                                            <a href="<?php APP_URL();?>/admin/change-password.php"><i class="icon-lock"></i> <span>Change Password</span></a>
                                         </li>
-                                        <li><a href="../logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="logout.php"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -189,70 +183,67 @@ if($profile['status'] == 'Blocked'){
             <div class="nk-nav-scroll">
                 <ul class="metismenu" id="menu">
                     <li class="nav-label">Dashboard</li>
+
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                        <i class="fa fa-users"></i><span class="nav-text">Users</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="<?php echo APP_URL();?>/admin/all-users.php">All Users</a></li>
+                            <li><a href="<?php echo APP_URL();?>/admin/pending-user.php">Pending</a></li>
+                            <li><a href="<?php echo APP_URL();?>/admin/blocked-user.php">Blocked</a></li>
+                        </ul>
+                    </li>
                     <li>
-                        <a href="../deshboard/">
+                        <a href="../admin/">
                             <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
                         </a>
                     </li>
 
-                    <li class="nav-label">products</li>
-
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-shopping-cart"></i><span class="nav-text">Categories</span>
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/category.php">
+                            <i class="fa fa-shopping-cart"></i><span class="nav-text">Categories</span>
                         </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php echo APP_URL();?>/categories/new-categories.php">Add New Categories</a></li>
-                            <li><a href="<?php echo APP_URL();?>/categories/index.php">All Categories</a></li>
-                        </ul>
-                    </li>
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="fa fa-shopping-cart"></i><span class="nav-text">Products</span>
-                        </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php echo APP_URL();?>/products/new-products.php">Add New Product</a></li>
-                            <li><a href="<?php echo APP_URL();?>/products/index.php">All products</a></li>
-                        </ul>
                     </li>
 
-                    <li class="nav-label">Purchases</li>
-
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Menufacture</span>
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/products.php">
+                            <i class="fa fa-shopping-cart"></i><span class="nav-text">Products</span>
                         </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php echo APP_URL();?>/manufacture/new-manufacture.php">Add New Menufacture</a></li>
-                            <li><a href="<?php echo APP_URL();?>/manufacture/index.php">All Menufactures</a></li>
-                        </ul>
                     </li>
 
-                    <li class="mega-menu mega-menu-sm">
-                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                        <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Purchase</span>
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/manufacture.php">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Manufacture</span>
                         </a>
-                        <ul aria-expanded="false">
-                            <li><a href="<?php echo APP_URL();?>/purchase/new-purchase.php">Add New Purchase</a></li>
-                            <li><a href="<?php echo APP_URL();?>/purchase/index.php">All Purchases</a></li>
-                            <!-- <li><a href="<?php //echo APP_URL();?>/groups/index.php">Groups</a></li> -->
-                        </ul>
                     </li>
 
-                    <li class="mega-menu mega-menu-sm">
-                            <li><a href="<?php echo APP_URL();?>/groups/index.php"><i class="icon-globe-alt menu-icon"></i><span class="nav-text"> Group</span></a></li>
-                        
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/purchases.php">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Purchase</span>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/group.php">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text"> Group</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="<?php echo APP_URL();?>/admin/sales.php">
+                            <i class="fa fa-money"></i><span class="nav-text"> Sales</span>
+                        </a>
                     </li>
                     
-                    <li class="nav-label">sales</li>
-
                     <li class="mega-menu mega-menu-sm">
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
-                            <i class="fa fa-money"></i><span class="nav-text">Sales</span>
+                        <i class="fa fa-users"></i><span class="nav-text">Reports</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="<?php echo APP_URL();?>/sales/new-sales.php">Add New Sale</a></li>
-                            <li><a href="<?php echo APP_URL();?>/sales/index.php">All Sales</a></li>
+                            <li><a href="<?php echo APP_URL();?>/admin/sales-reports.php">Sales Reports</a></li>
+                            <li><a href="<?php echo APP_URL();?>/admin/purchases-reports.php">Purchases Reports</a></li>
                         </ul>
                     </li>
                     

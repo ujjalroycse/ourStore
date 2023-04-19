@@ -2,7 +2,7 @@
 <?php 
 require_once('../config.php');
 // require_once('../includes/header.php'); 
-get_header();
+admin_header();
 ?>
 
 <div class="row">
@@ -11,7 +11,7 @@ get_header();
             <div class="card-body">
                 <h3 class="card-title text-white">Total Purchases</h3>
                 <div class="d-inline-block">
-                    <h2 class="text-white"><?php echo getTotalData('purchases','total_price') ?></h2>
+                    <h2 class="text-white"> 1234</h2>
                 </div>
                 <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
             </div>
@@ -22,7 +22,7 @@ get_header();
             <div class="card-body">
                 <h3 class="card-title text-white">Total Sale</h3>
                 <div class="d-inline-block">
-                    <h2 class="text-white"><?php echo getTotalData('sales','sub_total') ?></h2>
+                    <h2 class="text-white"> 1234</h2>
                 </div>
                 <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
             </div>
@@ -33,7 +33,7 @@ get_header();
             <div class="card-body">
                 <h3 class="card-title text-white">Total Products</h3>
                 <div class="d-inline-block">
-                    <h2 class="text-white"><?php echo getTotalProducts('products') ?></h2>
+                    <h2 class="text-white"> 3254</h2>
                 </div>
                 <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
             </div>
@@ -44,7 +44,7 @@ get_header();
             <div class="card-body">
                 <h3 class="card-title text-white">Total Manufacture</h3>
                 <div class="d-inline-block">
-                    <h2 class="text-white"><?php echo getTotalProducts('manufacture') ?></h2>
+                    <h2 class="text-white">1365 </h2>
                 </div>
                 <span class="float-right display-5 opacity-5"><i class="fa fa-heart"></i></span>
             </div>
@@ -55,7 +55,7 @@ get_header();
             <div class="card-body">
                 <h3 class="card-title text-white">Total Quantity</h3>
                 <div class="d-inline-block">
-                    <h2 class="text-white"><?php echo getTotalData('sales','quantity') ?></h2>
+                    <h2 class="text-white">2356</h2>
                 </div>
                 <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
             </div>
@@ -556,5 +556,5 @@ get_header();
 
 <?php 
 // require_once('includes/footer.php'); 
-get_footer();
+admin_footer();
 ?>

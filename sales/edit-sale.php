@@ -2,70 +2,41 @@
 <?php 
 
 require_once('../config.php');
-require_once('../includes/header.php');
+get_header();
+$id = $_REQUEST['id'];
 $user_id = $_SESSION['user']['id'];
 
-if(isset($_POST['purchase_submit'])){
+if(isset($_POST['update_form'])){
 
     $product_id = $_POST['product_id'];
     $manufacture_id = $_POST['manufacture_id'];
     $group_name = $_POST['group_name'];
-    $price_item = $_POST['price'];
+    $price = $_POST['price'];
     $manufacture_price = $_POST['manufacture_price'];
     $quantity = $_POST['quantity'];
     $expire_date = $_POST['expire_date'];
 
-    $group_count = getColumnCount('purchases','group_name',$group_name);
-
     if(empty($group_name)){
         $error = "Group name is required!";
     }
-    // elseif($group_name != 0){
-    //     $error = "Group name already exists!";
-    // }
-    elseif(empty($price_item)){
+    elseif(empty($price)){
         $error = "Price is required!";
     }
-    elseif(!is_numeric($price_item)){
-        $error = "Price money use only number!";
-    }
     elseif(empty($manufacture_price)){
-        $error = "Manufacture Price is required!";
-    }
-    elseif(!is_numeric($manufacture_price)){
-        $error = "Manufacture Price use only number!";
+        $error = "Manufacture price is required!";
     }
     elseif(empty($quantity)){
-        $error = "Quantity is required!";
-    }
-    elseif(!is_numeric($quantity)){
-        $error = "Quantity use only number!";
+        $error = "Quantity price is required!";
     }
     elseif(empty($expire_date)){
         $error = "Expire date is required!";
     }
     else{
-        $date = date('Y-m-d H:i:s');
-        $total_price = $price_item*$quantity;
-        $total_manufacture_price = $manufacture_price*$quantity;
+        // $date = date('Y-m-d H:i:s');
+        $statement=$connection->prepare("UPDATE sales SET group_name=?,product_id=?,manufacture_id=?,quantity=?,price_item=?,manufacture_price_item=?,expire_date=? WHERE user_id=? AND id=?");
+        $statement->execute(array($group_name,$product_id,$manufacture_id,$quantity,$price,$manufacture_price,$expire_date,$user_id,$id));
 
-        // create groups
-        $statement=$connection->prepare("INSERT INTO groups(user_id,group_name,product_id,quantity,price_item,manufacture_price_item,total_price,total_manufacture_price,expire_date,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $statement->execute(array($user_id,$group_name,$product_id,$quantity,$price_item,$manufacture_price,$total_price,$total_manufacture_price,$expire_date,$date));
-
-        // create purchases
-        $statement=$connection->prepare("INSERT INTO purchases(user_id,group_name,manufacture_id,product_id,quantity,price_item,manufacture_price_item,total_price,total_manufacture_price,created_at) VALUES(?,?,?,?,?,?,?,?,?,?)");
-        $statement->execute(array($user_id,$group_name,$manufacture_id,$product_id,$quantity,$price_item,$manufacture_price,$total_price,$total_manufacture_price,$date));
-        
-        //update product stock
-        $stm=$connection->prepare("UPDATE products SET stock=stock+? WHERE id=? AND user_id=?");
-        $stm->execute(array($quantity,$product_id,$user_id));
-
-        // $stm=$connection->prepare("UPDATE purchases SET quantity=? WHERE id=? AND user_id=?");
-        // $stm->execute(array($quantity,$product_id,$user_id));
-
-        $success = "Create successfully!";
-
+        $success = "Purchase update successfully!";
     }
 }
 
@@ -75,10 +46,10 @@ if(isset($_POST['purchase_submit'])){
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-10 offset-md-1">
+        <div class="col-lg-8 offset-md-1">
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title">Create New Products</h3>
+                    <h3 class="card-title">Update Purchase</h3>
                     <?php if(isset($error)) : ?>
                         <div class="alert alert-danger">
                             <?php echo $error; ?>
@@ -92,7 +63,10 @@ if(isset($_POST['purchase_submit'])){
 
                     <hr>
                     <div class="basic-form">
-                        <form action="" method="POST" >
+                        <form action="" method="POST">
+                            <?php 
+                            $update_par_data = getSingleData('sales',$id);
+                            ?>
                             <div class="form-group">
                                 <label for="product_id">Select Product :</label>
                                 <select name="product_id" id="product_id" class="form-control input-default">
@@ -116,26 +90,26 @@ if(isset($_POST['purchase_submit'])){
                             </div>
                             <div class="form-group">
                                 <label for="group_name">Group Name :</label>
-                                <input id="group_name" type="text" name="group_name" class="form-control input-default" placeholder="Group Name">
+                                <input id="group_name" type="text" name="group_name" value="<?php echo $update_par_data['group_name'] ?>" class="form-control input-default" >
                             </div>
                             <div class="form-group">
                                 <label for="price">Price :</label>
-                                <input type="text" name="price" id="price" class="form-control input-default" placeholder="Price">
+                                <input type="text" name="price" id="price" value="<?php echo $update_par_data['price_item'] ?>" class="form-control input-default" >
                             </div>
                             <div class="form-group">
                                 <label for="manufacture_price">Manufacture Price :</label>
-                                <input type="text" name="manufacture_price" id="manufacture_price" class="form-control input-default" placeholder="Manufacture Price">
+                                <input type="text" name="manufacture_price" id="manufacture_price" value="<?php echo $update_par_data['manufacture_price_item'] ?>" class="form-control input-default">
                             </div>
                             <div class="form-group">
                                 <label for="quantity">Quantity :</label>
-                                <input type="text" name="quantity" id="quantity" class="form-control input-default" placeholder="Quantity">
+                                <input type="text" name="quantity" id="quantity" class="form-control input-default" value="<?php echo $update_par_data['quantity'] ?>">
                             </div>
                             <div class="form-group">
                                 <label for="expire_date">Expire Date:</label>
-                                <input type="date" name="expire_date" id="expire_date" class="form-control input-default" placeholder="Expire Date">
+                                <input type="date" name="expire_date" id="expire_date" value="<?php echo $update_par_data['expire_date'] ?>" class="form-control input-default">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="purchase_submit" class="btn btn-primary" value="Purchase">
+                                <input type="submit" name="update_form" class="btn btn-success" value="Update">
                             </div>
                         </form>
                     </div>
